@@ -61,7 +61,7 @@ The [Cheat Sheet](cheat-sheet/CheatSheet.md) is a print-optimized version.
 - [Variables](#variables)
   - [Prefer inline to up-front declarations](#prefer-inline-to-up-front-declarations)
   - [Do not use variables outside of the statement block they are declared in](#do-not-use-variables-outside-of-the-statement-block-they-are-declared-in)
-  - [Do not chain up-front declarations](#do-not-chain-up-front-declarations)
+  - [Chain up-front data declarations](#chain-up-front-data-declarations)
   - [Do not use field symbols for dynamic data access](#do-not-use-field-symbols-for-dynamic-data-access)
   - [Choose the right targets for your loops](#choose-the-right-targets-for-your-loops)
 - [Tables](#tables)
@@ -1002,33 +1002,33 @@ ENDIF.
 
 > Read more in _Chapter 5: Formatting: Vertical Distance: Variable Declarations_ of [Robert C. Martin's _Clean Code_].
 
-### Do not chain up-front declarations
+### Chain up front data declarations
 
-> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#do-not-chain-up-front-declarations)
-
-```ABAP
-DATA name TYPE seoclsname.
-DATA reader TYPE REF TO reader.
-```
-
-Chaining suggests the defined variables are related on a logical level.
-To consistently use it, you would have to ensure that all chained variables belong together,
-and introduce additional chain groups to add variables.
-While this is possible, it is usually not worth the effort.
-
-Chaining also needlessly complicates reformatting and refactoring
-because each line looks different and changing them requires meddling with
-colons, dots, and commas, that are not worth the effort.
+> [Clean ABAP](#clean-abap) > [Content](#content) > [Variables](#variables) > [This section](#chain-up-front-data-declarations)
 
 ```ABAP
-" anti-pattern
 DATA:
   name   TYPE seoclsname,
   reader TYPE REF TO reader.
 ```
+The purpose of chaining data declarations upfront is to improve code readability and maintainability. By declaring all data at the beginning of a program or method, it becomes easier for developers to understand the data dependencies and flow of the code. It provides a clear overview of the variables used in the program.
 
-> Also refer to [Don't align type clauses](#dont-align-type-clauses)  
-> If chaining of data declaration is used, then use one chain for each group of variables belonging together.
+While optimizing for readability is indeed an important principle of Clean Code, it is also crucial to consider the long-term maintainability of the code. By chaining the data declaration upfront, the code becomes more self-explanatory and easier to modify, even if it means sacrificing a small amount of readability at the point of usage. Remember that code is read much more frequently than it is changed, so optimizing for maintainability can often outweigh the minor impact on initial readability.
+
+```ABAP
+" anti-pattern
+DATA: reader_class TYPE seoclsname,
+      reader       TYPE REF TO reader.
+
+DATA: writer_class TYPE seoclsname,
+      writer       TYPE REF TO writer.
+```
+
+```ABAP
+" anti-pattern
+DATA name TYPE seoclsname.
+DATA reader TYPE REF TO reader.
+```
 
 ### Do not use field symbols for dynamic data access
 
